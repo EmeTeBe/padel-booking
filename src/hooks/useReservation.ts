@@ -2,13 +2,24 @@ import { useState } from "react";
 
 type StepType = "hours" | "courts" | "calendar" | "time-slots";
 
+type Reservation = {
+  hours: number;
+  court: string;
+  date: Date | null;
+};
+
 export default function useReservation() {
   const [step, setStep] = useState<StepType>("hours");
-  const [reservation, setReservation] = useState({
+  const [reservation, setReservation] = useState<Reservation>({
     hours: 0,
     court: "",
-    date: null as Date | null,
+    date: null,
   });
+
+  // Actualizacion especifica para la fecha
+  const updateDate = (date: Date) => {
+    setReservation((prev) => ({ ...prev, date }));
+  };
 
   const nextStep = () => {
     if (step === "hours") setStep("courts");
@@ -22,5 +33,5 @@ export default function useReservation() {
     else if (step === "time-slots") setStep("calendar");
   };
 
-  return { step, reservation, setReservation, nextStep, prevStep };
+  return { step, reservation, updateDate, setReservation, nextStep, prevStep };
 }
