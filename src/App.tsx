@@ -2,9 +2,10 @@
 import useReservation from "./hooks/useReservation";
 import HourStep from "./components/HourStep";
 import CourtStep from "./components/CourtStep";
+import CalendarStep from "./components/CalendarStep";
 
 function App() {
-  const { step, reservation, setReservation, nextStep, prevStep } =
+  const { step, reservation, updateDate, setReservation, nextStep, prevStep } =
     useReservation();
 
   return (
@@ -32,7 +33,15 @@ function App() {
           onBack={prevStep}
         />
       )}
-      {/* Add other steps like CalendarStep and TimeSlotsStep here */}
+      {step === "calendar" && (
+        <CalendarStep
+          onDateSelect={(date) => {
+            updateDate(date); // Actualiza el estado global
+            nextStep(); // Avanza a time-slots
+          }}
+          onBack={prevStep}
+        />
+      )}
     </div>
   );
 }

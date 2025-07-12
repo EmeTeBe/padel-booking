@@ -1,36 +1,46 @@
-import { useState } from "react";
-import DatePicker from "react-datepicker";
+import { DayPicker } from "react-day-picker";
 import { es } from "date-fns/locale"; // Soporte para español
+import "react-day-picker/dist/style.css";
+import { useState } from "react";
 
-import "react-datepicker/dist/react-datepicker.css";
-
-type CalendarProps = {
+type CalendarStepProps = {
   onDateSelect: (date: Date) => void;
+  onBack: () => void;
 };
 
-export default function Calendar({ onDateSelect }: CalendarProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+export default function CalendarStep({
+  onDateSelect,
+  onBack,
+}: CalendarStepProps) {
+  const today = new Date();
+  const currentMonth = new Date(today.getFullYear(), today.getMonth());
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+
+  // Deshabilita días pasados y domingos
+
+  // 0 = Domingo
+  const isDayDisabled = (day: Date) => day < today || day.getDay() === 0;
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">
-        Elegí fecha y hora
-      </h2>
-      <DatePicker
+    <div className="space-y-4">
+      <DayPicker
+        mode="single"
         selected={selectedDate}
-        onChange={(date) => {
+        onSelect={(date) => {
           setSelectedDate(date);
           if (date) onDateSelect(date);
         }}
-        showTimeSelect
-        timeFormat="HH:mm"
-        timeIntervals={30}
-        dateFormat="Pp" // Nuevo formato estándar (ej: "15/07/2024, 14:30")
-        minDate={new Date()}
-        locale={es} // Español (fijarse si tengo que instalar date-fns)
-        className="input input-bordered w-full"
-        placeholderText="Selecciona una fecha"
+        defaultMonth={currentMonth}
+        disabled={isDayDisabled}
+        modifiersClassNames={{
+          selected: "bg-primary text-white",
+          disabled: "text-gray-400 cursor-not-allowed",
+        }}
+        locale={es}
       />
+      <button onClick={onBack} className="btn btn-outline mt-4">
+        ← Volver
+      </button>
     </div>
   );
 }
