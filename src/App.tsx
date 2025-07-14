@@ -37,7 +37,7 @@ function App() {
         <CalendarStep
           onDateSelect={(date) => {
             updateDate(date); // Actualiza el estado global
-            nextStep(); // Avanza a time-slots
+            // Avanza a time-slots
           }}
           onBack={prevStep}
         />

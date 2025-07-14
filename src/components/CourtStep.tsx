@@ -20,8 +20,8 @@ export default function CourtStep({
           {court}
         </button>
       ))}
-      <button onClick={onBack} className="w-full p-3 border border-gray-200 text-gray-800 rounded-lg mb-2 hover:bg-blue-50">
-        Volver
+      <button onClick={onBack} className="btn btn-soft mt-4">
+       ← Volver
       </button>
     </Card>
   );
