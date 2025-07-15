@@ -1,4 +1,3 @@
-// App.tsx
 import useReservation from "./hooks/useReservation";
 import HourStep from "./components/HourStep";
 import CourtStep from "./components/CourtStep";
@@ -15,29 +14,32 @@ function App() {
         <p className="text-gray-600">Calle Demo 1234 ★★★★★</p>
       </header>
 
+      {step === "calendar" && (
+        <CalendarStep
+          onDateSelect={(date) => {
+            updateDate(date);
+            nextStep();
+          }}
+          onBack={() => {}} // no hay back desde el primer paso
+        />
+      )}
+
       {step === "hours" && (
         <HourStep
           onSelect={(hours) => {
             setReservation({ ...reservation, hours });
             nextStep();
           }}
+          onBack={prevStep}
         />
       )}
+
       {step === "courts" && (
         <CourtStep
           courts={["Cancha 1", "Cancha 2", "Cancha 3"]}
           onSelect={(court) => {
             setReservation({ ...reservation, court });
             nextStep();
-          }}
-          onBack={prevStep}
-        />
-      )}
-      {step === "calendar" && (
-        <CalendarStep
-          onDateSelect={(date) => {
-            updateDate(date); // Actualiza el estado global
-            // Avanza a time-slots
           }}
           onBack={prevStep}
         />
