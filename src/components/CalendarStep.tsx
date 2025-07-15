@@ -9,25 +9,38 @@ type CalendarStepProps = {
   onBack: () => void;
 };
 
-export default function CalendarStep({
-  onDateSelect,
-  onBack,
-}: CalendarStepProps) {
+export default function CalendarStep({ onDateSelect }: CalendarStepProps) {
   const today = new Date();
   const currentMonth = new Date(today.getFullYear(), today.getMonth());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   // Deshabilita días pasados y domingos
-
   // 0 = Domingo
-  const isDayDisabled = (day: Date) => day < today || day.getDay() === 0;
+  const isDayDisabled = (day: Date) => {
+    const isSunday = day.getDay() === 0;
+
+    // Comparamos solo la parte de la fecha, sin la hora
+    const startOfToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    const startOfDay = new Date(
+      day.getFullYear(),
+      day.getMonth(),
+      day.getDate()
+    );
+
+    const isBeforeToday = startOfDay < startOfToday;
+
+    return isBeforeToday || isSunday;
+  };
 
   return (
     <Card title="FECHA">
       <DayPicker
         mode="single"
         captionLayout="label"
-        className="rounded-lg shadow-md p-4 mb-4 fade-in text-gray-950"
         selected={selectedDate}
         onSelect={(date) => {
           setSelectedDate(date);
@@ -40,16 +53,11 @@ export default function CalendarStep({
         locale={es}
         numberOfMonths={1}
         required
-        modifiersClassNames={{
-          selected: "bg-primary text-white font-bold",
-          today: "border-2 border-secondary font-bold",
-          disabled: "text-gray-400 cursor-not-allowed",
-          day: "hover:bg-green-50 rounded-full",
+        classNames={{
+          caption: "text-lg font-semibold",
+          day: "p-1 hover:transform hover:scale-150 transition-transform font-semibold",
         }}
       />
-      <button onClick={onBack} className="btn btn-soft mt-4">
-        ← Volver
-      </button>
     </Card>
   );
 }
