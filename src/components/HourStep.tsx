@@ -2,8 +2,10 @@ import Card from "./UI/Card";
 
 export default function HourStep({
   onSelect,
+  onBack,
 }: {
   onSelect: (hours: number) => void;
+  onBack: () => void;
 }) {
   const options = [
     { hours: 1, price: 5000 },
@@ -27,6 +29,9 @@ export default function HourStep({
           </div>
         </button>
       ))}
+      <button className="btn btn-soft mt-4" onClick={onBack}>
+       ← volver
+      </button>
     </Card>
   );
 }
