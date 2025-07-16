@@ -6,10 +6,10 @@ export default function Card({
   title?: string;
 }) {
   return (
-    <div className="bg-white rounded-lg shadow-md">
-      <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+    <div className="card bg-base-content shadow-md rounded-xl">
+      <div className="card-title p-4 border-b border-base-100 flex justify-between items-center">
         {title && (
-          <h2 className="text-xl text-gray-800 font-semibold p-0.5">{title}</h2>
+          <h2 className="text-xl text-base-300 font-semibold p-0.5">{title}</h2>
         )}
         <a href="#" className="text-gray-500 hover:text-gray-700">
           {/* Icono de cerrar */}
@@ -29,7 +29,7 @@ export default function Card({
           </svg>
         </a>
       </div>
-      <div className="p-4 flex flex-col justify-center items-center text-base-100">{children}</div>
+      <div className="card-body p-4 justify-center items-center text-base-100">{children}</div>
     </div>
   );
 }
