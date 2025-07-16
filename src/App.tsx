@@ -18,9 +18,9 @@ function App() {
         <CalendarStep
           onDateSelect={(date) => {
             updateDate(date);
-            nextStep();
           }}
           onBack={() => {}} // no hay back desde el primer paso
+          onNext={nextStep}
         />
       )}
 
@@ -28,20 +28,22 @@ function App() {
         <HourStep
           onSelect={(hours) => {
             setReservation({ ...reservation, hours });
-            nextStep();
           }}
           onBack={prevStep}
+          onNext={nextStep}
+          selectedHours={reservation.hours}
         />
       )}
 
       {step === "courts" && (
         <CourtStep
-          courts={["Cancha 1", "Cancha 2", "Cancha 3"]}
+          courts={["Cancha 1", "Cancha 2"]}
           onSelect={(court) => {
             setReservation({ ...reservation, court });
-            nextStep();
           }}
           onBack={prevStep}
+          selectedCourt={reservation.court}
+          onNext={nextStep}
         />
       )}
     </div>

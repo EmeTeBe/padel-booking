@@ -7,9 +7,13 @@ import Card from "./UI/Card";
 type CalendarStepProps = {
   onDateSelect: (date: Date) => void;
   onBack: () => void;
+  onNext: () => void; // Añadido para manejar el siguiente paso
 };
 
-export default function CalendarStep({ onDateSelect }: CalendarStepProps) {
+export default function CalendarStep({
+  onDateSelect,
+  onNext,
+}: CalendarStepProps) {
   const today = new Date();
   const currentMonth = new Date(today.getFullYear(), today.getMonth());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -55,9 +59,26 @@ export default function CalendarStep({ onDateSelect }: CalendarStepProps) {
         required
         classNames={{
           caption: "text-lg font-semibold",
-          day: "p-1 hover:transform hover:scale-150 transition-transform font-semibold",
+          day: "p-0.5 hover:transform hover:scale-150 transition-transform font-semibold",
+          today: "bg-info text-primary-content rounded-full",
+          selected:
+            "bg-info text-primary-content font-bold rounded-full transition-transform scale-110",
         }}
       />
+      <div className="flex justify-end mt-4 w-full">
+        <button
+          className="btn btn-soft"
+          disabled={!selectedDate}
+          onClick={() => {
+            if (selectedDate) {
+              onDateSelect(selectedDate);
+              onNext();
+            }
+          }}
+        >
+          Siguiente →
+        </button>
+      </div>
     </Card>
   );
 }
